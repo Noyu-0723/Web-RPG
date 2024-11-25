@@ -5,8 +5,8 @@ class Player{
         this.gold = initialGold;
         this.hp = Math.floor(baseHp * (1 + level / 5));
         this.mp = Math.floor(baseMp * (1 + level / 7));
-        this.attack = weapon + Math.floor(baseAttack * (1 + level / 3));
-        this.defence = armor + Math.floor(baseDefence * (1 + level / 5));
+        this.attack = weapon[2] + Math.floor(baseAttack * (1 + level / 3));
+        this.defence = armor[2] + Math.floor(baseDefence * (1 + level / 5));
         this.maxHp = Math.floor(baseHp * (1 + level / 5));
         this.maxMp = Math.floor(baseMp * (1 + level / 7));
     }

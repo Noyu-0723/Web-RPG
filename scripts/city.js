@@ -8,22 +8,22 @@ function goStore(){
 }
 function buyDagger(){
     cls();
-    buyAnyThing("ダガー", 20);
+    buyAnyThing([0, "ダガー", 5], 20);
     printLog();
 }
 function buyLongsword(){
     cls();
-    buyAnyThing("ロングソード", 80);
+    buyAnyThing([0, "ロングソード", 17], 80);
     printLog();
 }
 function buyCloth(){
     cls();
-    buyAnyThing("布の服", 15)
+    buyAnyThing([1, "布の服", 3], 15)
     printLog();
 }
 function buyPlateArmor(){
     cls();
-    buyAnyThing("鉄の鎧", 120)
+    buyAnyThing([1, "鉄の鎧", 8], 120)
     printLog();
 }
 
@@ -47,7 +47,7 @@ function breakTime(){
         stockLog([0, "あなたは30ゴールドを支払って休憩することにした"]);
         stockLog([0, "HP・MPが最大になった"]);
         stockLog([0, "ポーション数が3個になった"]);
-        updateGold();
+        updateMenuStatus();
         printLog();
     }else{
         stockLog([0, "ゴールドが足りないみたいだ…"]);
@@ -58,8 +58,6 @@ function breakTime(){
 /* 街の門 */
 function goGate(){
     cls();
-    
-    document.getElementById("gold-display").style.display = "none";
     document.getElementById("start-city").style.display = "none";
     document.getElementById("gate").style.display = "block";
     stockLog([0, "ここを一歩出ればもう安全は保障されない"]);
@@ -69,25 +67,21 @@ function goGate(){
 /* スタート画面 */
 function cityBack(){
     cls();
-
-    document.getElementById("gold-display").style.display = "block";
     document.getElementById("store").style.display = "none";
     document.getElementById("bar").style.display = "none";
     document.getElementById("gate").style.display = "none";
     document.getElementById("start-city").style.display = "block";
-    updateGold();
     stockLog([0, "何処へ行こう？"])
     printLog();
 }
 
 /* その他の処理 */
 // 購入処理
-function buyAnyThing(name, price){
+function buyAnyThing(array, price){
     if(player.gold >= price){
         player.gold -= price
-        stockLog([0, `あなたは${price}ゴールド支払って${name}を購入した`]);
-        updateGold();
-        equipment(name);
+        stockLog([0, `あなたは${price}ゴールド支払って${array[1]}を購入した`]);
+        equipment(array);
         return true;
     }else{
         stockLog([0, "ゴールドが足りないみたいだ…"]);
@@ -95,26 +89,17 @@ function buyAnyThing(name, price){
     }
 }
 // 装備処理
-function equipment(name){
+function equipment(array){
     let message;
-    if(name === "ダガー"){
-        weapon = 3;
-        message = `武器攻撃力が${weapon}になった`;
-    }else if(name === "ロングソード"){
-        weapon = 7;
-        message = `武器攻撃力が${weapon}になった`;
-    }else if(name === "布の服"){
-        armor = 2;
-        message = `防具防御力が${armor}になった`;
-    }else if(name === "鉄の鎧"){
-        armor = 6;
-        message = `防具防御力が${armor}になった`;
+    if(array[0] === 1){
+        weapon = array;
+        message = `武器攻撃力が${weapon[2]}になった`;
+    }else if(array[0] === 2){
+        armor = array;
+        message = `防具防御力が${armor[2]}になった`;
     }
-    player.attack = weapon + Math.floor(baseAttack * (1 + level / 3));
-    player.defence = armor + Math.floor(baseDefence * (1 + level / 5));
+    player.attack = weapon[2] + Math.floor(baseAttack * (1 + level / 3));
+    player.defence = armor[2] + Math.floor(baseDefence * (1 + level / 5));
     stockLog([0, message]);
-}
-// ゴールドの表示更新
-function updateGold(){
-    document.getElementById("gold").textContent = player.gold;
+    updateMenuStatus();
 }
