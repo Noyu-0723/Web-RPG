@@ -4,6 +4,40 @@ html {
     font-size: 16px;
 }
 
+/* ハンバーガーメニュー */
+.menu-icon {
+    position: fixed; /* 画面内の固定位置 */
+    top: 5px;
+    right: 10px;
+    z-index: 1000; /* 他の要素の上に表示されるようにするためのZインデックス */
+    cursor: pointer;
+}
+.bar {
+    padding: 5px;
+    height: 3px;
+    width: 25px;
+    color: #000;
+    background-color: #777;
+    margin: 4px 0;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 25%;
+    height: 100%;
+    padding: 20px;
+    background-color: #e5e5e5;
+    overflow-y: auto;
+    transition: right 0.3s;
+}
+.sidebar.open {
+    right: 0; /* サイドバーが開くときの位置 */
+}
+.sidebar li {
+    list-style: none;
+}
+
 /* 戦闘画面 */
 #game-container {
     width: 600px;
@@ -48,14 +82,39 @@ html {
     height: auto; 
 }
 #cave {
-    padding: 10px 20px;
-    font-size: 16px;
     cursor: pointer;
 }
 #forest {
-    padding: 10px 20px;
-    font-size: 16px;
     cursor: pointer;
+}
+
+
+.tooltip {
+    position: relative;
+    display: inline-block; 
+    cursor: pointer;
+}
+.tooltip .tooltip-text {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 4px;
+
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
 }
 
 /* ダンジョン */

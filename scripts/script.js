@@ -2,8 +2,8 @@
 let enemy;
 // アイテム
 let potionCount = 0;
-let weapon = 0;
-let armor = 0;
+let weapon = [0, "なし", 0];
+let armor = [0, "なし", 0];
 // プレイヤー生成
 let level = 1
 let baseHp = 15;
@@ -67,7 +67,6 @@ function attack(){
 // 特技使用
 function fire(){
     cls();
-
     // プレイヤーが敵を攻撃
     if(player.fire(enemy)){
         return;
@@ -80,12 +79,10 @@ function fire(){
     if(getWinEnemy(player)){
         return;
     }
-    
     printLog();
 }
 function heal(){
     cls();
-
     // プレイヤーが回復
     if(player.heal(enemy)){
         return;
@@ -98,7 +95,6 @@ function heal(){
     if(getWinEnemy(player)){
         return;
     }
-    
     printLog();
 }
 // 特技メニュー表示・戻る
@@ -134,6 +130,7 @@ function getWinPlayer(enemy){
             caveBoss--;
         }else if(enemy.name === "ユニコーン"){
             forestBoss--;
+
         }
 
         document.getElementById("default-actions").style.display = "none";
@@ -162,6 +159,8 @@ function getWinEnemy(player){
 /* 表示関連 */
 // ステータス更新
 function updateStatus(){
+    // サイドバー上のステータス更新
+    updateMenuStatus();
     // プレイヤーのステータスを更新
     document.getElementById("player-hp").textContent = player.hp;
     document.getElementById("player-mp").textContent = player.mp;
@@ -196,7 +195,7 @@ function stockLog(list){
     logList.push(list);
 }   
 // 格納された文字をまとめて表示
-function printLog() {
+function printLog(){
     for (let i = 0; i < logList.length; i++) {
         const type = logList[i][0];
         const message = logList[i][1];
@@ -232,4 +231,25 @@ function cls(){
 function randint(max){
     let num = Math.floor(Math.random() * max + 1);
     return num;
+}
+
+// サイドバーのステータス表示更新
+function updateMenuStatus(){
+    document.getElementById("status-gold").textContent = player.gold;
+    document.getElementById("status-level").textContent = player.level;
+    document.getElementById("status-hp").textContent = `${player.hp}/${player.maxHp}`;
+    document.getElementById("status-mp").textContent = `${player.mp}/${player.maxMp}`;
+    document.getElementById("status-at").textContent = `${player.attack}`;
+    document.getElementById("status-def").textContent = player.defence;
+    document.getElementById("status-weapon").textContent = `${weapon[1]}(${weapon[2]})`;
+    document.getElementById("status-armor").textContent = `${armor[1]}(${armor[2]})`;
+}
+// サイドバー
+function toggleSidebar(){
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('open'); // クラス 'open' を切り替え
+}
+// ゲーム開始時のステータス更新
+window.onload = function(){
+    updateMenuStatus();
 }
